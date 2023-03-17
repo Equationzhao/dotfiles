@@ -8,7 +8,7 @@ export LANG=zh-CN.UTF-8
 export LANGUAGE=zh_CN:en_US
 export LC_ALL=C
 
-source .config/chat/env
+source ~/.config/chat/env
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
