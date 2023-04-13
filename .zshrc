@@ -114,4 +114,15 @@ if [ "$(command -v exa)" ]; then
     alias la='exa -l --color always --icons -a -s type'
 fi
 
+autoload -Uz vcs_info                                                                                                                              
+precmd() { vcs_info }                                                                                                                              
+zstyle ':vcs_info:git:*' formats '%b '                                                                                                             
+                                       
+# setopt PROMPT_SUBST                                                                                           
+# PROMPT='%(?.%F{blue}√.%F{red}?%?)%f %F{blue}%n@%m%f %l %B%F{black}%20~%f%b
+# %F{red}${vcs_info_msg_0_}%f%B%F{yellow}λ%f%b '                                                                                                   
+# RPROMPT='%F{green}%*%f'                                                                                       
+                       
+
+
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
