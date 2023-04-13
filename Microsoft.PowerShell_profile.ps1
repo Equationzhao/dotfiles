@@ -33,11 +33,19 @@ function createFolderTheSameNameAsFile {
     
 }
 
+function SetGitProxy{
+	git config --global https.proxy http://127.0.0.1:10809
+	git config --global https.proxy https://127.0.0.1:10809
+}
 
+function UnsetGirProxy{
+	git config --global --unset http.proxy
+	git config --global --unset https.proxy
+}
 
 function dnsupdate{
 	cd C:\scripts\ddns
-	./ddns.cmd
+	./GodDns.exe r a o -parallel
 }
 
 function hotspot{
