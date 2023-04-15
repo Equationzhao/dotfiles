@@ -45,7 +45,7 @@ function UnsetGirProxy{
 
 function dnsupdate{
 	cd C:\scripts\ddns
-	./GodDns.exe r a o -parallel
+	GodDns.exe r a  -parallel
 }
 
 function hotspot{
