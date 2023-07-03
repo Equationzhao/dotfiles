@@ -5,7 +5,7 @@ Set-PSReadLineOption -PredictionSource History
 # Advanced Autocompletion for arrow keys
 Set-PSReadlineKeyHandler -Key UpArrow   -Function HistorySearchBackward
 Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
-Set-PSReadLineKeyHandler -Key "Tab"     -Function MenuComplete
+# Set-PSReadLineKeyHandler -Key "Tab"     -Function MenuComplete
 Set-PSReadLineKeyHandler -Key "Ctrl+z"  -Function Undo
 
 #zoxide
@@ -65,21 +65,7 @@ function ps {
 
 Set-Alias -Name top -Value btop
 
-Remove-Alias -Name ls
-function ls {
-    param(
-        [Switch] $path
-    )
-    g $args
-}
-
-function ll {
-    g -1 -perm -size -owner -group -time 
-}
-
-function la {
-    g -l
-}
+Invoke-Expression (& { (g --init powershell | Out-String) })
 
 function weather {
     Invoke-RestMethod https://wttr.in
