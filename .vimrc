@@ -75,44 +75,44 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " vim-go setup
-"autocmd FileType go nmap <leader>r  <Plug>(go-run)
-"autocmd FileType go nmap <leader>t  <Plug>(go-test)
-"let g:go_test_timeout = '30s'
-"function! s:build_go_files()
-"      let l:file = expand('%')
-"        if l:file =~# '^\f\+_test\.go$'
-"            call go#test#Test(0, 1)
-"                  elseif l:file =~# '^\f\+\.go$'
-"                          call go#cmd#Build(0)
-"                            endif
-"endfunction
-"let g:go_fmt_command = "goimports"
-"autocmd FileType go nmap <leader>b :<C-u>call
-"let g:go_highlight_types = 1
-"let g:go_highlight_extra_types = 1
-"let g:go_highlight_function_calls = 1
-"let g:go_highlight_functions = 1
-"let g:go_highlight_fields = 1
-"let g:go_highlight_build_constraints = 1
-"let g:go_highlight_generate_tags = 1
-"let g:go_metalinter_autosave = 1
-"let g:go_metalinter_deadline = "5s"
-"let g:go_auto_type_info = 1
-"let g:go_auto_sameids = 1
-"autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
-"autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0,'vsplit')
-"autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
-"autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0,'tabe')
+autocmd FileType go nmap <leader>r  <Plug>(go-run)
+autocmd FileType go nmap <leader>t  <Plug>(go-test)
+let g:go_test_timeout = '30s'
+function! s:build_go_files()
+      let l:file = expand('%')
+        if l:file =~# '^\f\+_test\.go$'
+            call go#test#Test(0, 1)
+                  elseif l:file =~# '^\f\+\.go$'
+                          call go#cmd#Build(0)
+                            endif
+endfunction
+let g:go_fmt_command = "goimports"
+autocmd FileType go nmap <leader>b :<C-u>call
+let g:go_highlight_types = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_generate_tags = 1
+let g:go_metalinter_autosave = 1
+let g:go_metalinter_deadline = "5s"
+let g:go_auto_type_info = 1
+let g:go_auto_sameids = 1
+autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
+autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0,'vsplit')
+autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
+autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0,'tabe')
 
 set laststatus=2
-"set statusline=\ @Equationzhao "
-"set statusline+=\ \|\|\ [FileName:\ %f]
-"set statusline+=%=
-"set statusline+=\ %y
-"set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
-"set statusline+=\[%{&fileformat}\]
-"set statusline+=\ %p%%
-"set statusline+=\ [%l:%c]
+" set statusline=\ @Equationzhao "
+" set statusline+=\ \|\|\ [FileName:\ %f]
+" set statusline+=%=
+" set statusline+=\ %y
+" set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+" set statusline+=\[%{&fileformat}\]
+" set statusline+=\ %p%%
+" set statusline+=\ [%l:%c]
 
 let g:airline_powerline_fonts = 1  
 let g:airline#extensions#tabline#enabled = 1 
@@ -166,7 +166,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'easymotion/vim-easymotion'
 Plug 'preservim/tagbar'
 Plug 'morhetz/gruvbox'
-" Plug 'fatih/vim-go', {'do':'GoUpdateBinaries'}
+Plug 'fatih/vim-go', {'do':'GoUpdateBinaries'}
 Plug 'sebdah/vim-delve'
 Plug 'fatih/molokai'
 Plug 'AndrewRadev/splitjoin.vim'
