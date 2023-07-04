@@ -8,11 +8,7 @@ Set-PSReadlineKeyHandler -Key DownArrow -Function HistorySearchForward
 # Set-PSReadLineKeyHandler -Key "Tab"     -Function MenuComplete
 Set-PSReadLineKeyHandler -Key "Ctrl+z"  -Function Undo
 
-#zoxide
-Set-Alias -Name cd  -Value __zoxide_z  -Option AllScope -Scope Global -Force
-Set-Alias -Name cdi -Value __zoxide_zi -Option AllScope -Scope Global -Force
-
-Invoke-Expression (& { $hook = if ($PSVersionTable.PSVersion.Major -ge 6) { 'pwd' } else { 'prompt' } (zoxide init powershell --hook $hook | Out-String) })
+Invoke-Expression (& { $hook = if ($PSVersionTable.PSVersion.Major -ge 6) { 'pwd' } else { 'prompt' } (zoxide init powershell --cmd cd --hook $hook | Out-String) })
 
 oh-my-posh.exe init pwsh --config 'C:\Users\Equationzhao\AppData\Local\Programs\oh-my-posh\themes\oh-my-posh-my-half-life-git\my-catppuccin.omp.json' | Invoke-Expression
 #import gsudo PowerShell Module
@@ -77,118 +73,16 @@ function source {
     & $profile
 }
 
+
 function OpenCurrentFolder {
 	param
 	(
-		# 输入要打开的路径
-		# 用法示例：open C:\
-		# 默认路径：当前工作文件夹
 		$Path = '.'
 	)
 	Invoke-Item $Path
 }
 Set-Alias -Name open -Value OpenCurrentFolder
 
-function gob {
-    go build $args
-}
-
-function goc {
-    go clean $args
-}
-
-function god {
-    go doc $args
-}
-
-function goe {
-    go env $args
-}
-
-function gof {
-    go fmt $args
-}
-
-function gofa {
-    go fmt $args ./...
-}
-
-function gofx {
-    go fix $args
-}
-
-function gog {
-    go get $args
-}
-
-function goga {
-    go get $args ./...
-}
-
 function goi {
     go install $args
-}
-
-function gol {
-    go list $args
-}
-
-function gom {
-    go mod $args
-}
-
-function gopa {
-    Set-Location $GOPATH
-}
-
-function gopb {
-    Set-Location $GOPATH\\bin
-}
-
-function gops {
-    Set-Location $GOPATH\\src
-}
-
-function gor {
-    go run $args
-}
-
-function got {
-    go test $args
-}
-
-function gota {
-    go test $args ./...
-}
-
-function got {
-    go test $args
-}
-
-function goto {
-    go tool $args
-}
-
-function gotoc {
-    go tool compile $args
-}
-
-function gotofx {
-    go tool fix $args
-} 
-
-function gov {
-    go vet $args
-}
-
-function gove {
-    go version $args
-}
-
-function gow {
-    go work $args
-}
-
-function goh {
-    go help $args
 }
