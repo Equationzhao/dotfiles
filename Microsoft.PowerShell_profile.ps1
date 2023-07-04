@@ -65,6 +65,8 @@ function ps {
 
 Set-Alias -Name top -Value btop
 
+# g, a more powerfull ls
+# https://github.com/Equationzhao/g
 Invoke-Expression (& { (g --init powershell | Out-String) })
 
 function weather {
@@ -74,7 +76,6 @@ function weather {
 function source {
     & $profile
 }
-
 
 function OpenCurrentFolder {
 	param
@@ -87,3 +88,107 @@ function OpenCurrentFolder {
 	Invoke-Item $Path
 }
 Set-Alias -Name open -Value OpenCurrentFolder
+
+function gob {
+    go build $args
+}
+
+function goc {
+    go clean $args
+}
+
+function god {
+    go doc $args
+}
+
+function goe {
+    go env $args
+}
+
+function gof {
+    go fmt $args
+}
+
+function gofa {
+    go fmt $args ./...
+}
+
+function gofx {
+    go fix $args
+}
+
+function gog {
+    go get $args
+}
+
+function goga {
+    go get $args ./...
+}
+
+function goi {
+    go install $args
+}
+
+function gol {
+    go list $args
+}
+
+function gom {
+    go mod $args
+}
+
+function gopa {
+    Set-Location $GOPATH
+}
+
+function gopb {
+    Set-Location $GOPATH\\bin
+}
+
+function gops {
+    Set-Location $GOPATH\\src
+}
+
+function gor {
+    go run $args
+}
+
+function got {
+    go test $args
+}
+
+function gota {
+    go test $args ./...
+}
+
+function got {
+    go test $args
+}
+
+function goto {
+    go tool $args
+}
+
+function gotoc {
+    go tool compile $args
+}
+
+function gotofx {
+    go tool fix $args
+} 
+
+function gov {
+    go vet $args
+}
+
+function gove {
+    go version $args
+}
+
+function gow {
+    go work $args
+}
+
+function goh {
+    go help $args
+}
