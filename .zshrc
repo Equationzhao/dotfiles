@@ -1,63 +1,67 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+export GOPATH=~/go
+export GOBIN=$GOPATH/bin
+export PATH="/opt/homebrew/opt/curl/bin:$HOME/.go/current/bin:$GOBIN:$PATH"
+export LDFLAGS="-L/usr/local/opt/curl/lib"
+export CPPFLAGS="-I/usr/local/opt/curl/include"
+export PKG_CONFIG_PATH="/usr/local/opt/curl/lib/pkgconfig"
+export GOPROXY=https://proxy.golang.com.cn,direct
+export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890
+export GPG_TTY=$(tty)
+export GIT_AUTO_FETCH_INTERVAL=1200
 
-# If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH:/opt/anaconda/bin
-
-
-# Path to your oh-my-zsh installation.
-export LANG=en_US.UTF-8
-export LANG=zh-CN.UTF-8
-export LANGUAGE=zh_CN:en_US
-export LC_ALL=C
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="half-life"
-export ZSH="$HOME/.zsh"
-
-
-# ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bg=cyan,bold,underline"
-
-eval "$(mcfly init zsh)" 
-eval "$(zoxide init zsh)"
-
-cpv() {                                                                                       rsync -pogbr -hhh --backup-dir="/tmp/rsync-${USERNAME}" -e /dev/null --progress "$@"                  
-}                                                                                       
-compdef _files cpv                                                                                            
-                   
-
-# alias
+alias cls=clear
+alias src='source ~/.zshrc'
 alias cp="cpv"
 alias src="source ~/.zshrc"
-# alias scp="rsync"
-alias cls="clear"
-alias cat="bat --theme="Nord""
+alias cat="bat --theme="Nord" -p"
 alias grep="rg"
-alias lll="br -sdph"
 alias df="duf"
 alias usage="tldr"
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
+alias find_text="rg"
+alias find_file="fd"
+alias lines="tokei"
 
-function pacman_backup(){
-        pacman -Qqen > arch-pkglist
+cpv() {
+    rsync -pogbr -hhh --backup-dir="/tmp/rsync-${USERNAME}" -e /dev/null --progress "$@"
 }
 
-source /home/equationzhao/.config/broot/launcher/bash/br
+function unset_proxy() {
+    unset http_proxy
+    unset https_proxy
+    unset ALL_PROXY
+}
 
-# show some information
-# neofetch|lolcat
-# cowsay -f tux welcome!|lolcat
 
-### Added by Zinit's installer
+function copy_to_icloud() {
+
+  icloud_dir=~/Library/Mobile\ Documents/com~apple~CloudDocs
+
+  if [[ ! -d $icloud_dir ]]; then
+    mkdir -p $icloud_dir
+  fi
+
+  for file in "$@"; do
+    if [[ -f $file ]]; then
+      cp "$file" "$icloud_dir"
+      echo "Copied $file to $icloud_dir"
+    else
+      echo "File $file not found" >&2
+    fi
+  done
+
+}
+
+
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi
+
+## Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
     print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
     command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
@@ -80,49 +84,74 @@ zinit light-mode for \
 
 ### End of Zinit's installer chunk
 
-zinit ice depth=1; zinit light romkatv/powerlevel10k
 zinit snippet OMZ::plugins/sudo/sudo.plugin.zsh
 
 zinit snippet OMZ::plugins/extract
 
-# zinit ice lucid wait='0' atload='_zsh_autosuggest_start'
-# zinit light zsh-users/zsh-autosuggestions
-# zinit light z-shell/F-Sy-H
-# zinit snippet OMZ::plugins/colored-man-pages
+zinit wait lucid for \
+ atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+    zdharma-continuum/fast-syntax-highlighting \
+ blockf \
+    zsh-users/zsh-completions \
+ atload"!_zsh_autosuggest_start" \
+    zsh-users/zsh-autosuggestions
+
+zinit light z-shell/F-Sy-H
+zinit snippet OMZ::plugins/colored-man-pages
 zinit snippet OMZ::plugins/command-not-found
 zinit snippet OMZ::plugins/safe-paste
-
-# zi load z-shell/zsh-navigation-tools
-zi ice from"gh-r" as"program"
-zi light junegunn/fzf
+zinit snippet OMZ::plugins/git-auto-fetch
+zinit light z-shell/zsh-navigation-tools
+zinit ice from"gh-r" as"program"
+zinit snippet OMZ::plugins/golang
 zinit snippet OMZ::lib/completion.zsh
-zinit snippet OMZ::lib/theme-and-appearance.zsh
+zinit snippet OMZ::lib/history.zsh
+zinit ice as"command" from"gh-r" \
+    atclone"./starship init zsh > init.zsh; ./starship completions zsh > _starship" \
+    atpull"%atclone" src"init.zsh"
+zinit light starship/starship
+zinit light arzzen/calc.plugin.zsh
 
 
-source ~/.zsh/plugins/autoenv/autoenv.sh
-source ~/.zsh/plugins/incr/incr-0.2.zsh
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+export PATH="/opt/homebrew/opt/curl/bin:$PATH"
 
-if [ "$(command -v exa)" ]; then
-    unalias -m 'll'
-    unalias -m 'l'
-    unalias -m 'la'
-    unalias -m 'ls'
-    alias ls='exa -G  --color auto --icons -a -s type'
-    alias ll='exa -l --color always --icons -a -s type'
-    alias l='exa -l --color always --icons -a -s type'
-    alias la='exa -l --color always --icons -a -s type'
-fi
+eval "$(g --init zsh)"
 
-autoload -Uz vcs_info                                                                                                                              
-precmd() { vcs_info }                                                                                                                              
-zstyle ':vcs_info:git:*' formats '%b '                                                                                                             
-                                       
-# setopt PROMPT_SUBST                                                                                           
-# PROMPT='%(?.%F{blue}√.%F{red}?%?)%f %F{blue}%n@%m%f %l %B%F{black}%20~%f%b
-# %F{red}${vcs_info_msg_0_}%f%B%F{yellow}λ%f%b '                                                                                                   
-# RPROMPT='%F{green}%*%f'                                                                                       
-                       
+function tree() {
+    local target="$1"
+    if [[ -z "$target" ]]; then
+        target="$PWD"
+    fi
+
+    g --tree "$target"
+}
+
+eval "$(zoxide init zsh)"
+
+function cd() {
+    local target="$1"
+    if [[ -z "$target" ]]; then
+        target="$HOME"
+    fi
+
+    z "$target"
+
+    ls
+}
+
+function whereami(){
+    curl ip.im
+}
+
+function system(){
+    cpu_mem=$(ps -A -o %cpu,%mem | awk '{ cpu += $1; mem += $2} END {print "CPU: "cpu"% MEM: "mem"%"}')
+
+    echo "${cpu_mem}"
+}
 
 
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+autoload -Uz compinit
+compinit
+eval "$(thefuck --alias)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
