@@ -27,11 +27,12 @@ set helplang=cn
 set whichwrap+=<,>,h,l
 set ignorecase
 set smartcase
+set scrolloff=7
 set updatetime=500
 
 let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
 " "let g:rehash256 = 1
-let mapleader = ","
+let mapleader = "\<space>"
 
 inoremap jj <Esc>
 noremap J 10j
@@ -40,15 +41,29 @@ map s <nop>
 map S :w<CR>
 map Q :q<CR>
 map R :source $MYVIMRC<CR>
+noremap H ^
+noremap L $
 noremap <c-b> :NERDTreeToggle<CR>
 noremap <c-f> :NERDTreeFind<CR>
 nmap ss <Plug>(easymotion-s2)
+nmap m <Plug>(easymotion-s2)
 nnoremap <c-p> :Files<CR>
 nnoremap <c-g> :Rg<CR>
-map <c-u> :TagbarToggle<CR>
 map <c-j> :ter ++rows=20<CR>
-let g:tagbar_autopreview = 1
+"
+map <Left> <nop>
+map <Right> <nop>
+map <Up> <nop>
+map <Down> <nop>
 
+"Treat long lines as break lines (useful when moving around in them)
+nnoremap k gk
+nnoremap gk k
+nnoremap j gj
+nnoremap gj j
+
+let g:tagbar_autopreview = 1
+set backspace=indent,eol,start
 
 
 if has("autocmd")
@@ -58,53 +73,8 @@ if has("autocmd")
     \ endif
 endif
 
-" coc vim i
-inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
-inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<C-g>u\<CR>"
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-inoremap <silent><expr> <Tab>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-inoremap <silent><expr> <c-space> coc#refresh()
-inoremap <silent><expr> <c-@> coc#refresh()
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
-" vim-go setup
-autocmd FileType go nmap <leader>r  <Plug>(go-run)
-autocmd FileType go nmap <leader>t  <Plug>(go-test)
-let g:go_test_timeout = '30s'
-function! s:build_go_files()
-      let l:file = expand('%')
-        if l:file =~# '^\f\+_test\.go$'
-            call go#test#Test(0, 1)
-                  elseif l:file =~# '^\f\+\.go$'
-                          call go#cmd#Build(0)
-                            endif
-endfunction
-let g:go_fmt_command = "goimports"
-autocmd FileType go nmap <leader>b :<C-u>call
-let g:go_highlight_types = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_generate_tags = 1
-let g:go_metalinter_autosave = 1
-let g:go_metalinter_deadline = "5s"
-let g:go_auto_type_info = 1
-let g:go_auto_sameids = 1
-autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
-autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0,'vsplit')
-autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
-autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0,'tabe')
-
 set laststatus=2
+
 " set statusline=\ @Equationzhao "
 " set statusline+=\ \|\|\ [FileName:\ %f]
 " set statusline+=%=
@@ -114,8 +84,8 @@ set laststatus=2
 " set statusline+=\ %p%%
 " set statusline+=\ [%l:%c]
 
-let g:airline_powerline_fonts = 1  
-let g:airline#extensions#tabline#enabled = 1 
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
 let g:airline_theme='onedark'
 
 if !exists('g:airline_symbols')
@@ -141,6 +111,10 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 let g:NERDCompactSexyComs = 1
 let g:NERDSpaceDelims=1
+" close NERDTree when it's the last window
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+let g:EasyMotion_smartcase = 1
 
 call plug#begin()
 " The default plugin directory will be as follows:
@@ -170,15 +144,16 @@ Plug 'fatih/vim-go', {'do':'GoUpdateBinaries'}
 Plug 'sebdah/vim-delve'
 Plug 'fatih/molokai'
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'SirVer/ultisnips'
 Plug 'Raimondi/delimitMate'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'wakatime/vim-wakatime'
 Plug 'jremmen/vim-ripgrep'
 Plug 'github/copilot.vim'
 Plug 'joshdick/onedark.vim'
 Plug 'luochen1990/rainbow'
 Plug 'preservim/nerdcommenter'
 Plug 'skywind3000/vim-terminal-help'
+Plug 'NoahTheDuke/vim-just'
 call plug#end()
 
 
@@ -200,6 +175,3 @@ endif
 
 syntax on
 colorscheme onedark
-
-
-
